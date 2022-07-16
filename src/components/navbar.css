@@ -1,0 +1,21 @@
+@import url('http://fonts.cdnfonts.com/css/circular-std');
+
+.list{
+    font-style: normal;
+    border: 1px solid;
+    font-family: 'Circular Std', sans-serif;
+    font-size: 17px;
+    line-height: 12px;
+    color:#e94141;
+    padding-inline: 12px;
+}
+
+.list:hover{
+    font-size: 20px;
+    border-bottom: 1px solid #00a8ff;  
+}
+@media screen and (max-width: 1000px) {
+.txt{
+    display: none;
+}
+}

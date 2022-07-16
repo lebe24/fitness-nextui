@@ -1,0 +1,88 @@
+
+:root {
+    --color-background: #000119;
+    --stroke-width: calc(1em / 16);
+    --font-size: 30vmin;
+    --font-weight: 700;
+    --letter-spacing: calc(1em / 8);
+}
+#text {
+    transform: translatex(45px);
+}
+ 
+#text2{
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-image: -webkit-gradient(linear, left top, right top, from(#09f1b8), color-stop(#00a2ff), color-stop(#ff00d2), to(#fed90f));
+    background-image: -o-linear-gradient(left, #09f1b8, #00a2ff, #ff00d2, #fed90f);
+    background-image: linear-gradient(to right, #09f1b8, #00a2ff, #ff00d2, #fed90f);
+    color: white;
+    
+    font-size: 100px;
+    
+    font-weight: 700;
+    font-weight: var(--font-weight);
+    letter-spacing: calc(1em / 8);
+    letter-spacing: var(--letter-spacing);
+    -webkit-text-stroke-color: transparent;
+    -webkit-text-stroke-width: calc(1em / 16);
+    -webkit-text-stroke-width: var(--stroke-width);
+    transform: translatey(-75px);
+  }
+
+.container{
+    display:flex ;
+}
+
+#person{
+    
+    transform: translatey(-117px);
+    z-index: -1;
+}
+
+#im2 {
+    position: absolute;
+      transform: translatey(150px);
+      z-index: 1;
+}
+
+#im1{
+    position: relative;
+    z-index: 10;
+}
+
+#im3{
+    position: absolute;
+    right:10%;
+    transform: translatey(-150px);
+    
+    z-index: 5;
+}
+
+@media screen and (max-width: 1000px) {
+
+    #row{
+        display: block;
+        border: 2px solid red;
+    }
+
+    #im2{
+        transform: translatey(80px);
+    }
+    #im3{
+        display: none;
+    }
+
+    #text {
+        font-size: 6rem;
+        transform: translatex(-20px);
+    }
+
+    #text3 {
+        font-size: 5rem;
+        transform: translatex(-20px);
+    }
+    
+}
+
+/* a media query for all screen size in #im */

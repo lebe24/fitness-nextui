@@ -1,0 +1,63 @@
+<Container fluid display="flex"
+        css={{
+          w: "60%",
+        }}>
+      <div className="box" > 
+        <Text
+          h1
+          size={80}
+          id="col"
+          css={{
+            lineHeight:"normal",
+            textGradient: "45deg, $blue600 -20%, $pink600 50%",
+          }}
+          weight="bold"
+        >
+        Health
+      </Text>
+      <Row>
+      <Text
+          h1
+          size={100}
+          id="col2"
+          
+          weight="bold"
+      >
+        &
+      </Text>
+      <Text
+        h1
+        id="col3"
+        size={60}
+        css={{
+          textGradient: "45deg, $yellow600 -20%, $red600 100%",
+        }}
+        weight="bold"
+      >
+        Fitness
+      </Text>
+      </Row>
+      <Text
+        h5
+        size={50}
+        
+        >Train Different</Text>
+        <Text size={12} weight="bold" transform="uppercase" color="#fffffAA">
+          {quote.author}
+        </Text>
+        <Text h4  color="black" css={{
+          width: '60%',
+        }}>
+          {quote.quote}
+        </Text>
+      </div>
+      <div display="flex" >
+        
+      
+      
+      <img width={420} src={person} id="im1" />
+      <img width={400} src={rect} id="im2" />
+ 
+      </div>
+      
+    </Container>
