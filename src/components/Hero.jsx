@@ -5,7 +5,6 @@ import person from "../assets/female.png"
 import vector from '../assets/Vector.png'
 import { useState, useEffect } from "react"
 import { exercisequoteapi } from "../services/exerciseapi"
-import  { CardQuote } from "./Card"
 
 const Hero = () => {
 
@@ -23,12 +22,14 @@ const Hero = () => {
    
   }, [])
 
-  console.log(quote.quote)
+  // console.log(quote.quote)
   
   return (
-    <div>
+   
     <Container fluid >
-      <Row id="row">
+      <Row id="row" css={{
+        borderBottom: '2px solid #2a2727',
+      }}>
         <Text css={{
           // border: '1px solid #e6e6e6',
           width: '100%',
@@ -69,8 +70,8 @@ const Hero = () => {
                   weight="bold"
                   >Fitness</Text>
               </Row>
-              <Text h1 size={40}>{quote.author}</Text>
-              <Text h1 size={20} css={{w:"100%"}}>{quote.quote}</Text>
+              <Text h1 size={40}>{quote.author}</Text> 
+               <Text h1 size={20} css={{w:"100%"}}>{quote.quote}</Text>
           </Text>
           
         </Text>
@@ -79,14 +80,14 @@ const Hero = () => {
             width: '100%',
           }}></Image>
           <img width={400} src={rect} id="im2" /> */}
-          <img width={420} src={person} id="im1" />
+          <img width={420} src={person} id="im1"alt=""  />
           <img src={vector} id="im3" alt="" />
-          <img width={400} src={rect} id="im2" />
+          <img width={400} src={rect} id="im2" alt="" />
         </Row>
         
       </Row>
     </Container>
-    </div>
+    
   )
 }
 

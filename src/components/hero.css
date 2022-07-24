@@ -63,7 +63,7 @@
 
     #row{
         display: block;
-        border: 2px solid red;
+        border-bottom: 2px solid #2a2727;
     }
 
     #im2{

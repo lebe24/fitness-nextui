@@ -1,6 +1,7 @@
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
-import { NextUIProvider, Container } from '@nextui-org/react';
+import { NextUIProvider} from '@nextui-org/react';
+import Footer from "./components/Footer";
 import App from "./App";
 
 
@@ -10,6 +11,7 @@ ReactDOM.render(
   <StrictMode>
     <NextUIProvider>
         <App />
+        <Footer />
     </NextUIProvider>
   </StrictMode>,
   rootElement

@@ -16,12 +16,15 @@ const workoutpic =
   }
 
 
-export const CardPart = ({setBodyItem, body }) => {
+export const CardPart = ({setBodyItem,setYt, body }) => {
 
   // console.log(workoutpic['back'])
   // console.log()
   return (
-    <div onClick={() =>{ setBodyItem(body)}} >
+    <div onClick={() =>{ 
+          setBodyItem(body)
+          setYt(false)
+      }} >
     <Card css={{ cursor:"pointer", h: "$24", $$cardColor: '$colors$primary',w:"100%" }} >
         <Card.Header css={{ position: "absolute", zIndex: 1, top: 5 }}>
             <Col>
@@ -43,25 +46,24 @@ export const CardPart = ({setBodyItem, body }) => {
   )
 }
 
-export const CardExercise = () => {
-  <Card css={{ w: "100%", h: "400px" }}>
+export const CardExercise = ({exercise}) => {
+  return (
+  <Card css={{ w: "100%", h: "400px"}}>
     <Card.Header css={{ position: "absolute", zIndex: 1, top: 5 }}>
       <Col>
-        <Text size={12} weight="bold" transform="uppercase" color="#9E9E9E">
-          Your day your way
-        </Text>
-        <Text h3 color="white">
-          Your checklist for better sleep
+        
+        <Text h3 color="black">
+          {exercise.name}
         </Text>
       </Col>
     </Card.Header>
     <Card.Body css={{ p: 0 }}>
       <Card.Image
-        src="http://d205bpvrqc9yn1.cloudfront.net/0019.gif"
+        src={exercise.gifUrl}
         objectFit="cover"
         width="100%"
         height="100%"
-        alt="Relaxing app background"
+        alt={exercise.name}
       />
     </Card.Body>
     <Card.Footer
@@ -88,10 +90,10 @@ export const CardExercise = () => {
             </Col>
             <Col>
               <Text color="#d1d1d1" size={12}>
-                Breathing App
+                {exercise.bodyPart}
               </Text>
               <Text color="#d1d1d1" size={12}>
-                Get a good night's sleep.
+                {exercise.target}
               </Text>
             </Col>
           </Row>
@@ -102,7 +104,7 @@ export const CardExercise = () => {
               flat
               auto
               rounded
-              css={{ color: "#94f9f0", bg: "#94f9f026" }}
+              css={{ color: "#94f9f0", bg: "black" }}
             >
               <Text
                 css={{ color: "inherit" }}
@@ -110,7 +112,7 @@ export const CardExercise = () => {
                 weight="bold"
                 transform="uppercase"
               >
-                Get App
+                view
               </Text>
             </Button>
           </Row>
@@ -118,5 +120,27 @@ export const CardExercise = () => {
       </Row>
     </Card.Footer>
   </Card>
+  )
 }
+export const CardYT = ({yt}) => {
 
+  return (
+      <Card isPressable>
+            <Card.Body css={{ p: 0 }}>
+              <Card.Image
+                src={yt.snippet.thumbnails.high.url}
+                objectFit="cover"
+                width="100%"
+                height={140}
+                alt={yt.snippet.title}
+              />
+            </Card.Body>
+            <Card.Footer css={{ justifyItems: "flex-start" }}>
+              <Row wrap="wrap" justify="space-between" align="center">
+                <Text b>{yt.snippet.title}</Text>
+              </Row>
+            </Card.Footer>
+      </Card>
+  )
+
+}
