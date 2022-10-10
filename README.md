@@ -2,4 +2,5 @@
 
 <img src='src/assets/nextui.png' />
 
-##view website 👉 [Fitness Goals](https://nextui-byy.pages.dev/)
+## See  view 👉 [gourav.io/clone-wars](https://gourav.io/clone-wars)
+
