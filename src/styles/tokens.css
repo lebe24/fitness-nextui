@@ -1,0 +1,76 @@
+/* ============================================================
+   IRON INDEX — design tokens
+   A brutalist sports-press system: asphalt ground, bone type,
+   one acid signal colour, hairline rules, condensed display.
+   ============================================================ */
+
+:root {
+  /* --- ground ------------------------------------------------ */
+  --ink:        #0b0b0c;
+  --ink-raise:  #121214;
+  --ink-panel:  #17171a;
+  --ink-deep:   #060607;
+
+  /* --- type -------------------------------------------------- */
+  --bone:       #f2efe9;
+  --bone-soft:  #b4b1aa;
+  --bone-mute:  #75736e;
+
+  /* --- signal ------------------------------------------------ */
+  --volt:       #d8ff3d;
+  --volt-deep:  #a8cb1f;
+  --ember:      #ff4a1c;
+
+  /* --- rules ------------------------------------------------- */
+  --rule:        rgba(242, 239, 233, 0.13);
+  --rule-strong: rgba(242, 239, 233, 0.30);
+  --rule-volt:   rgba(216, 255, 61, 0.35);
+
+  /* --- families ---------------------------------------------- */
+  --display: "Big Shoulders Display", "Oswald", "Arial Narrow", sans-serif;
+  --body: "Chivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "Chivo Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+
+  /* --- rhythm ------------------------------------------------ */
+  --shell: 1480px;
+  --gutter: clamp(1.25rem, 4vw, 4.5rem);
+  --band: clamp(4rem, 9vw, 8.5rem);
+
+  /* --- motion ------------------------------------------------ */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-snap: cubic-bezier(0.7, 0, 0.2, 1);
+  --t-fast: 180ms;
+  --t-mid: 320ms;
+  --t-slow: 620ms;
+
+  /* --- textures ---------------------------------------------- */
+  --hazard: repeating-linear-gradient(
+    -45deg,
+    var(--volt) 0 10px,
+    transparent 10px 20px
+  );
+}
+
+/* Fine grain film overlay, sits above everything, ignores input. */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.2;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
+  animation: grain-drift 6s steps(5) infinite;
+}
+
+/* Shifting the tile rather than the layer keeps the composited surface small. */
+@keyframes grain-drift {
+  0%   { background-position: 0 0; }
+  20%  { background-position: -24px 18px; }
+  40%  { background-position: 16px -22px; }
+  60%  { background-position: -18px -14px; }
+  80%  { background-position: 22px 10px; }
+  100% { background-position: 0 0; }
+}

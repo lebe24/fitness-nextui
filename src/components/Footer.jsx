@@ -1,44 +1,74 @@
-import { Container,Text ,Row ,Col ,Link} from '@nextui-org/react'
-import {BsGithub, BsTwitter ,BsGlobe} from 'react-icons/bs'
-const Footer = () => {
-  return (
-    <Container css={{
-        backgroundColor: '#313131',
-        
-    }}>
-        <Text size={22} lg={43} transform='uppercase' color='white' css={{
-            my: '20px',
-            textAlign: 'center',
-        }} >Fitness App inspired by jsmastery</Text>
-        <Row>
-            <Col>
-                <Text h6 color='white'>contact link</Text>
-                <Text h5 color='white' css={{my:"5px"}}><Link href='https://github.com/lebe24'><BsGithub style={{
-                    marginRight: '10px'
-                }} /></Link>lebe24</Text>
-                <Text h5 color='white'><Link href="https://lebe.pages.dev/"><BsGlobe style={{
-                    marginRight: '10px'
-                }} /></Link>lebepage</Text>
-                <Text h5 color='white'><Link href='https://twitter.com/emmanuellebe24'><BsTwitter style={{
-                    marginRight: '10px'
-                }} /></Link>lebe24</Text>
-            </Col>
-            <Col>
-                <Text h5 color='white'>Resource used</Text>
-                <Text h4 color='white'>React</Text>
-                <Text h4 color='white'>NextUi</Text>
-                <Text h4 color='white'>Rapid api</Text>
-            </Col>
-            
-        </Row>
-        <Text size={12} lg={43} transform='uppercase' color='white' css={{
-            my: '20px',
-            textAlign: 'center',
-        }} >© 2022 fitness developer by |<BsGithub style={{
-            marginInline: '10px'
-        }} /> lebepage</Text>
-    </Container>
-  )
-}
+import './Footer.css';
 
-export default Footer
+const CONTACT = [
+  { label: 'GitHub', handle: 'lebe24', href: 'https://github.com/lebe24' },
+  { label: 'Site', handle: 'lebe.pages.dev', href: 'https://lebe.pages.dev/' },
+  { label: 'X', handle: '@emmanuellebe24', href: 'https://twitter.com/emmanuellebe24' },
+];
+
+const STACK = [
+  { label: 'React 18', href: 'https://react.dev' },
+  { label: 'exercises-dataset', href: 'https://github.com/hasaneyldrm/exercises-dataset' },
+  { label: 'YouTube Data API', href: 'https://developers.google.com/youtube/v3' },
+];
+
+const Footer = () => (
+  <footer className="foot" id="colophon">
+    <div className="foot__banner">
+      <span className="foot__banner-text">Now go lift</span>
+    </div>
+
+    <div className="foot__grid shell">
+      <div className="foot__col foot__col--wide">
+        <p className="eyebrow eyebrow--volt">Iron Index</p>
+        <p className="foot__blurb">
+          A training archive of 1,324 movements. Filed by target muscle,
+          demonstrated in loop, free to browse. Data and media from the open
+          exercises-dataset.
+        </p>
+      </div>
+
+      <div className="foot__col">
+        <p className="eyebrow">Contact</p>
+        <ul className="foot__list">
+          {CONTACT.map((item) => (
+            <li key={item.href}>
+              <a href={item.href} target="_blank" rel="noopener noreferrer">
+                <span className="foot__list-label">{item.label}</span>
+                <span className="foot__list-handle">{item.handle}</span>
+                <span className="foot__list-arrow" aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="foot__col">
+        <p className="eyebrow">Built with</p>
+        <ul className="foot__list">
+          {STACK.map((item) => (
+            <li key={item.href}>
+              <a href={item.href} target="_blank" rel="noopener noreferrer">
+                <span className="foot__list-handle">{item.label}</span>
+                <span className="foot__list-arrow" aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div className="foot__base shell">
+      <p>© {new Date().getFullYear()} Iron Index — built by lebe24</p>
+      <a className="foot__top" href="#top">
+        Back to top ↑
+      </a>
+    </div>
+  </footer>
+);
+
+export default Footer;

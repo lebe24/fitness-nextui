@@ -1,0 +1,247 @@
+.ex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+
+/* ---------- card ---------- */
+
+.ex {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--ink-raise);
+  transition: background var(--t-mid) var(--ease);
+}
+
+.ex:hover { background: var(--ink-panel); }
+
+.ex__media {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: var(--bone);
+  overflow: hidden;
+}
+
+/* The dataset ships both frames on a white field; multiply drops them onto
+   the bone plate so a card reads as a printed illustration. */
+.ex__still,
+.ex__gif {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: multiply;
+  filter: contrast(1.05);
+}
+
+.ex__gif {
+  opacity: 0;
+  transition: opacity var(--t-fast) var(--ease);
+}
+
+.ex__gif.is-on { opacity: 1; }
+
+.ex__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--volt);
+  mix-blend-mode: multiply;
+  opacity: 0;
+  transition: opacity var(--t-mid) var(--ease);
+  pointer-events: none;
+}
+
+.ex:hover .ex__media::after { opacity: 0.42; }
+
+/* ---------- play control ---------- */
+
+.ex__toggle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 0;
+  background: var(--ink);
+  color: var(--bone);
+  padding: 0.4rem 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+
+.ex__toggle:hover,
+.ex__toggle:focus-visible {
+  background: var(--volt);
+  color: var(--ink);
+}
+
+.ex__toggle[aria-pressed="true"] { color: var(--volt); }
+
+.ex__toggle[aria-pressed="true"]:hover,
+.ex__toggle[aria-pressed="true"]:focus-visible { color: var(--ink); }
+
+@media (max-width: 420px) {
+  .ex__toggle-text { display: none; }
+}
+
+/* ---------- fallback plate for entries with no media ---------- */
+
+.ex__media--plate {
+  background: var(--ink-panel);
+  aspect-ratio: 4 / 3;
+}
+
+.ex__media--plate::after { mix-blend-mode: normal; }
+.ex:hover .ex__media--plate::after { opacity: 0.12; }
+
+.ex__plate {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding: 1.2rem;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(242, 239, 233, 0.045) 0 1px,
+    transparent 1px 9px
+  );
+}
+
+.ex__plate-name {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  line-height: 0.82;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(242, 239, 233, 0.42);
+}
+
+.ex__plate-note {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bone-mute);
+}
+
+/* ---------- index badge ---------- */
+
+.ex__num {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  padding: 0.35rem 0.6rem;
+  background: var(--ink);
+  color: var(--volt);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+/* ---------- body ---------- */
+
+.ex__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: clamp(1rem, 2vw, 1.4rem);
+  flex: 1;
+}
+
+.ex__name {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.35rem, 2.1vw, 1.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+}
+
+/* ---------- muscles trained ---------- */
+
+.ex__muscles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ex__muscle {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-mute);
+  border: 1px solid var(--rule);
+  padding: 0.16rem 0.4rem;
+}
+
+/* The primary target reads louder than the supporting muscles. */
+.ex__muscle.is-primary {
+  color: var(--volt);
+  border-color: var(--rule-volt);
+}
+
+.ex__muscle.is-active {
+  background: var(--volt);
+  border-color: var(--volt);
+  color: var(--ink);
+}
+
+.ex__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.6rem;
+  margin: auto 0 0;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--rule);
+}
+
+.ex__meta dt {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bone-mute);
+}
+
+.ex__meta dd {
+  margin: 0.2rem 0 0;
+  font-size: 0.85rem;
+  color: var(--bone);
+  text-transform: capitalize;
+}
+
+/* ---------- skeleton ---------- */
+
+.ex--ghost .ex__media { aspect-ratio: 1 / 1; }
+
+.ex__ghost-line {
+  height: 18px;
+  width: 80%;
+  border-radius: 1px;
+}
+
+.ex__ghost-line--short { width: 45%; height: 12px; }

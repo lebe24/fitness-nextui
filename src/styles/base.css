@@ -1,0 +1,247 @@
+@import "./tokens.css";
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  /* clip, not hidden: it keeps the rotated ticker band from widening the page
+     without turning the root into a scroll container and breaking the sticky nav. */
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+/* A faint structural grid sits under the whole page. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--rule) 1px, transparent 1px),
+    radial-gradient(80vw 60vh at 78% -10%, rgba(216, 255, 61, 0.07), transparent 65%);
+  background-size: 25vw 100%, 100% 100%;
+  opacity: 0.55;
+}
+
+img { max-width: 100%; display: block; }
+
+button,
+input { font: inherit; color: inherit; }
+
+a { color: inherit; text-decoration: none; }
+
+::selection { background: var(--volt); color: var(--ink); }
+
+:focus-visible {
+  outline: 2px solid var(--volt);
+  outline-offset: 3px;
+}
+
+/* Clear the sticky masthead when jumping to an anchor. */
+[id] { scroll-margin-top: 96px; }
+
+/* ---------- shared primitives ---------- */
+
+.results,
+.muscles { padding-top: clamp(2.5rem, 6vw, 4.5rem); }
+
+.muscles__ghost { height: clamp(320px, 38vw, 480px); }
+
+.shell {
+  width: 100%;
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  position: relative;
+  z-index: 1;
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bone-mute);
+  margin: 0;
+}
+
+.eyebrow--volt { color: var(--volt); }
+
+/* Section chapter head: index numeral + title + trailing rule. */
+.chapter {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(0.75rem, 2vw, 1.75rem);
+  padding-block: 1.1rem;
+  border-top: 1px solid var(--rule-strong);
+  margin-bottom: clamp(1.75rem, 4vw, 3rem);
+}
+
+.chapter__num {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--volt);
+  flex: none;
+}
+
+.chapter__title {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: clamp(2.1rem, 5.5vw, 4.25rem);
+  line-height: 0.84;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.chapter__note {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bone-mute);
+  margin: 0 0 0 auto;
+  text-align: right;
+  flex: none;
+}
+
+@media (max-width: 720px) {
+  .chapter { flex-wrap: wrap; }
+  .chapter__note { margin-left: 0; width: 100%; text-align: left; }
+}
+
+/* Outlined display type — used sparingly for contrast. */
+.hollow {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--bone);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.4rem;
+  border: 1px solid var(--bone);
+  background: transparent;
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--volt);
+  transform: translateY(101%);
+  transition: transform var(--t-mid) var(--ease-snap);
+}
+
+.btn > * { position: relative; z-index: 1; }
+
+.btn:hover,
+.btn:focus-visible {
+  color: var(--ink);
+  border-color: var(--volt);
+}
+
+.btn:hover::before,
+.btn:focus-visible::before { transform: translateY(0); }
+
+.btn--solid {
+  background: var(--volt);
+  border-color: var(--volt);
+  color: var(--ink);
+}
+
+.btn--solid::before { background: var(--bone); }
+
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn:disabled::before { transform: translateY(101%); }
+
+/* ---------- skeletons ---------- */
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink-panel);
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(242, 239, 233, 0.07),
+    transparent
+  );
+  animation: sweep 1.4s infinite;
+}
+
+@keyframes sweep {
+  to { transform: translateX(100%); }
+}
+
+/* ---------- entrance ---------- */
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+.rise { animation: rise var(--t-slow) var(--ease) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
