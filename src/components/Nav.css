@@ -1,0 +1,116 @@
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  border-bottom: 1px solid transparent;
+  transition: background var(--t-mid) var(--ease), border-color var(--t-mid) var(--ease);
+}
+
+.nav--lifted {
+  background: rgba(11, 11, 12, 0.82);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-bottom-color: var(--rule);
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 3rem);
+  min-height: 78px;
+}
+
+/* ---------- wordmark ---------- */
+
+.mark {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-right: auto;
+}
+
+.mark__glyph {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  background: var(--volt);
+  color: var(--ink);
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 1.2rem;
+  letter-spacing: -0.04em;
+  transition: transform var(--t-mid) var(--ease-snap);
+}
+
+.mark:hover .mark__glyph { transform: rotate(-8deg) scale(1.06); }
+
+.mark__words { display: flex; flex-direction: column; line-height: 1; }
+
+.mark__name {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1.35rem;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.mark__sub {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--bone-mute);
+  margin-top: 3px;
+}
+
+/* ---------- links ---------- */
+
+.nav__links { display: flex; gap: clamp(1rem, 2.5vw, 2.25rem); }
+
+.nav__link {
+  position: relative;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bone-soft);
+  padding-block: 0.4rem;
+  transition: color var(--t-fast) var(--ease);
+}
+
+.nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--volt);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--t-mid) var(--ease);
+}
+
+.nav__link:hover,
+.nav__link:focus-visible { color: var(--bone); }
+
+.nav__link:hover::after,
+.nav__link:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.nav__cta { padding-block: 0.7rem; }
+
+@media (max-width: 860px) {
+  .nav__links { display: none; }
+}
+
+@media (max-width: 520px) {
+  .nav__inner { min-height: 66px; }
+  .mark__sub { display: none; }
+  .nav__cta { padding-inline: 1rem; letter-spacing: 0.12em; }
+}

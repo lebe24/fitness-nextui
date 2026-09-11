@@ -1,72 +1,58 @@
-const _baseUrl = 'www.googleapis.com';
-const api = 'AIzaSyBF1Eb10jmMGit1H6N5ftVcE9q5oHb1OTk';
-const yt = 'https://www.googleapis.com/youtube/v3/search';
+/**
+ * YouTube Data API v3 — technique-video search.
+ * Set REACT_APP_YOUTUBE_API_KEY in .env.local; see .env.example.
+ */
 
-// https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=cardio%20fitness&type=video&key=AIzaSyBF1Eb10jmMGit1H6N5ftVcE9q5oHb1OTk
-// https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=wweOfficial&type=video&key=AIzaSyBF1Eb10jmMGit1H6N5ftVcE9q5oHb1OTk
+const KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
+const SEARCH_URL = 'https://www.googleapis.com/youtube/v3/search';
 
+export const MISSING_KEY_MESSAGE =
+  'No YouTube API key found. Copy .env.example to .env.local, add your key, and restart the dev server.';
 
+/**
+ * @param {string} query free-text search term
+ * @param {AbortSignal} [signal]
+ * @returns {Promise<Array<{id:string,title:string,channel:string,publishedAt:string,thumbnail:string}>>}
+ */
+export async function searchVideos(query, signal) {
+  const term = (query || '').trim();
+  if (!term) return [];
+  if (!KEY) throw new Error(MISSING_KEY_MESSAGE);
 
-export const youtubeapi = async({channelId}) =>{
-    // youtube api to search for videos
-    const res = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&key=${api}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    });
-    const data = await res.json();
-    return data
+  const params = new URLSearchParams({
+    part: 'snippet',
+    maxResults: '24',
+    q: `${term} workout`,
+    type: 'video',
+    key: KEY,
+  });
+
+  const res = await fetch(`${SEARCH_URL}?${params}`, { signal });
+  if (!res.ok) {
+    const detail = await res.json().catch(() => null);
+    throw new Error(
+      (detail && detail.error && detail.error.message) ||
+        `YouTube responded ${res.status}`
+    );
+  }
+
+  const data = await res.json();
+  return (data.items || [])
+    .filter((item) => item.id && item.id.videoId)
+    .map((item) => ({
+      id: item.id.videoId,
+      title: decodeEntities(item.snippet.title),
+      channel: decodeEntities(item.snippet.channelTitle),
+      publishedAt: item.snippet.publishedAt,
+      thumbnail:
+        (item.snippet.thumbnails.high || item.snippet.thumbnails.medium || {}).url,
+    }));
 }
 
-export const youtubevideo = async(string) =>{
-    console.log(string)
-    const res = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=30&q=${string}fficial&type=video&key=${api}`)
-    const data = await res.json();
-    return data
+/** YouTube returns titles with HTML entities such as &amp; and &#39;. */
+function decodeEntities(text) {
+  if (!text) return '';
+  const el = document.createElement('textarea');
+  el.innerHTML = text;
+  return el.value;
 }
-
-export const ytplaylistapi = async({playlistId}) =>{
-    
-        const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistId}&key=${api}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
-        const data = await res.json();
-        return data
-}
-
-
-
-// const res = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&key=${api}`, {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         }
-    //     });
-    //     const data = await res.json();
-    //     return data
-    // }
-// const uri2 ={
-//     search: `https://${_baseUrl}/youtube/v3/search?part=snippet&maxResults=10&q=${query}&type=video&key=${api}`,
-// }
-
-// const uri3 ={
-//     _baseUrl,
-//     string,
-//     parameter : {
-//         part: 'snippet',
-//         maxResults: '10',
-//         q: '${query}',
-//         type: 'video',
-//         key: '${api}',
-
-//     }
-// }
-
-// const headers ={
-//     'Content-Type': 'application/json',
-// }
-    

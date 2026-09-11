@@ -1,0 +1,128 @@
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 1px;
+  border: 1px solid var(--rule);
+  background: var(--rule);
+  margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+}
+
+/* ---------- segmented tabs ---------- */
+
+.segmented {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  background: var(--ink-raise);
+  flex: 0 1 auto;
+}
+
+.segmented__thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: var(--volt);
+  transition: transform var(--t-mid) var(--ease-snap);
+}
+
+.segmented__tab {
+  position: relative;
+  z-index: 1;
+  border: 0;
+  background: transparent;
+  padding: 1rem clamp(0.9rem, 2vw, 1.8rem);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-soft);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color var(--t-fast) var(--ease);
+}
+
+.segmented__tab.is-on { color: var(--ink); }
+.segmented__tab:not(.is-on):hover { color: var(--bone); }
+
+/* ---------- search ---------- */
+
+.finder {
+  flex: 1 1 340px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--ink-raise);
+  padding-left: clamp(0.9rem, 2vw, 1.4rem);
+}
+
+.finder__label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bone-mute);
+  flex: none;
+}
+
+.finder__input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  padding-block: 1rem;
+  font-size: 0.92rem;
+  color: var(--bone);
+  outline-offset: -4px;
+}
+
+.finder__input::placeholder { color: var(--bone-mute); }
+.finder__input::-webkit-search-cancel-button { filter: invert(1); opacity: 0.5; }
+
+.finder__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex: none;
+  align-self: stretch;
+  border: 0;
+  border-left: 1px solid var(--rule);
+  background: transparent;
+  padding-inline: clamp(1rem, 2.4vw, 1.8rem);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone);
+  cursor: pointer;
+  transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+
+.finder__go:hover:not(:disabled) {
+  background: var(--volt);
+  color: var(--ink);
+}
+
+.finder__go:disabled { color: var(--bone-mute); cursor: not-allowed; }
+
+/* "Technique video" is the longest label; tighten it before it clips. */
+@media (max-width: 560px) {
+  .segmented__tab {
+    padding-inline: 0.6rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+  }
+}
+
+@media (max-width: 720px) {
+  .toolbar { display: block; }
+  .segmented { grid-template-columns: repeat(2, 1fr); }
+  .finder { border-top: 1px solid var(--rule); }
+  .finder__label { display: none; }
+  .finder { padding-left: 1rem; }
+}

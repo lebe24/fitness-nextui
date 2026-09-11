@@ -1,0 +1,98 @@
+.vid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+
+.vid {
+  display: flex;
+  flex-direction: column;
+  background: var(--ink-raise);
+  transition: background var(--t-mid) var(--ease);
+}
+
+.vid:hover { background: var(--ink-panel); }
+
+.vid__media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--ink-deep);
+}
+
+.vid__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.1);
+  transition: filter var(--t-mid) var(--ease), transform var(--t-slow) var(--ease);
+}
+
+.vid:hover .vid__media img {
+  filter: grayscale(0) contrast(1.05);
+  transform: scale(1.05);
+}
+
+.vid__play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  transform: translate(-50%, -50%) scale(0.7);
+  background: var(--volt);
+  color: var(--ink);
+  font-size: 1rem;
+  padding-left: 3px;
+  opacity: 0;
+  transition: opacity var(--t-mid) var(--ease), transform var(--t-mid) var(--ease-snap);
+}
+
+.vid:hover .vid__play,
+.vid:focus-visible .vid__play {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.vid__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: clamp(0.9rem, 1.8vw, 1.2rem);
+  flex: 1;
+}
+
+.vid__title {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--bone);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.vid__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: auto 0 0;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-mute);
+}
+
+.vid:hover .vid__meta > span:first-child { color: var(--volt); }
+
+.vid__ghost-line { height: 14px; width: 90%; }
+.vid__ghost-line--short { width: 50%; height: 10px; }

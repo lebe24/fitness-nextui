@@ -1,0 +1,166 @@
+.rail { padding-top: clamp(1rem, 3vw, 2rem); }
+
+.rail__error {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ember);
+  border-left: 2px solid var(--ember);
+  padding-left: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.rail__frame { position: relative; }
+
+.rail__track {
+  display: flex;
+  gap: 1px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  padding: 1px;
+}
+
+.rail__track::-webkit-scrollbar { display: none; }
+
+/* ---------- target card ---------- */
+
+.target {
+  position: relative;
+  flex: 0 0 clamp(170px, 21vw, 230px);
+  height: clamp(230px, 27vw, 310px);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 1.1rem;
+  border: 0;
+  background: var(--ink-raise);
+  color: var(--bone);
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background var(--t-mid) var(--ease), color var(--t-mid) var(--ease);
+}
+
+.target--ghost { cursor: default; }
+
+.target__num {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--bone-mute);
+  transition: color var(--t-mid) var(--ease);
+}
+
+.target__name {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: clamp(1.9rem, 3.4vw, 2.9rem);
+  line-height: 0.86;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  max-width: 100%;
+  word-break: break-word;
+}
+
+.target__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--rule);
+  transition: border-color var(--t-mid) var(--ease);
+}
+
+.target__label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bone-mute);
+  transition: color var(--t-mid) var(--ease);
+}
+
+.target__arrow {
+  font-size: 1rem;
+  transition: transform var(--t-mid) var(--ease-snap);
+}
+
+/* Diagonal wash that sweeps up from the bottom on hover. */
+.target__hazard {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 100%;
+  background: linear-gradient(to top, rgba(216, 255, 61, 0.14), transparent 62%);
+  transform: translateY(100%);
+  transition: transform var(--t-mid) var(--ease);
+  pointer-events: none;
+}
+
+.target:hover .target__hazard,
+.target:focus-visible .target__hazard { transform: translateY(0); }
+
+.target:hover .target__arrow,
+.target:focus-visible .target__arrow { transform: translateX(5px); }
+
+.target:hover .target__num,
+.target:focus-visible .target__num { color: var(--volt); }
+
+/* ---------- active state ---------- */
+
+.target--on {
+  background: var(--volt);
+  color: var(--ink);
+}
+
+.target--on .target__num,
+.target--on .target__label { color: rgba(11, 11, 12, 0.62); }
+
+.target--on .target__foot { border-top-color: rgba(11, 11, 12, 0.28); }
+
+.target--on .target__hazard {
+  transform: translateY(0);
+  background: var(--hazard);
+  opacity: 0.1;
+  filter: invert(1);
+}
+
+/* ---------- nudge controls ---------- */
+
+.rail__controls {
+  display: flex;
+  gap: 1px;
+  justify-content: flex-end;
+  margin-top: 1px;
+}
+
+.rail__nudge {
+  width: 54px;
+  height: 40px;
+  border: 1px solid var(--rule);
+  background: var(--ink-raise);
+  color: var(--bone-soft);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+
+.rail__nudge:hover {
+  background: var(--volt);
+  color: var(--ink);
+  border-color: var(--volt);
+}
+
+@media (max-width: 620px) {
+  .rail__controls { justify-content: stretch; }
+  .rail__nudge { flex: 1; }
+}
