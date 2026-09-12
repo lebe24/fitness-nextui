@@ -66,6 +66,16 @@ every spelling onto the eighteen the map can draw, and drops what it cannot draw
 (hands, ankles, "cardiovascular system") rather than guessing. That logic is
 ported from openGym.
 
+## Deploying
+
+The build needs Node 24. `engines.node` in `package.json` and `.nvmrc` declare
+it; on Vercel the dashboard setting under Project Settings takes its own
+precedence, so check it there if a build reports an invalid Node version.
+
+Set `REACT_APP_YOUTUBE_API_KEY` in the host's environment variables too, and add
+the deployed domain to the key's HTTP referrer restrictions. Without that the
+archive and muscle map work but video search returns 403.
+
 ## Design
 
 Brutalist sports-press: asphalt ground, bone type, one acid-lime signal colour,
