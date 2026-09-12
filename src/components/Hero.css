@@ -30,6 +30,9 @@
 
 .hero__title {
   margin: 0;
+  /* line-height 0.76 pulls the box tighter than the glyphs, so the caps
+     overflow upward into the eyebrow. An em of padding scales with the type. */
+  padding-top: 0.14em;
   font-family: var(--display);
   font-weight: 900;
   font-size: clamp(4.5rem, 15.5vw, 13.5rem);
