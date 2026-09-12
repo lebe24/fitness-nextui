@@ -1,5 +1,7 @@
 # Iron Index — Health & Fitness Archive
 
+![The Iron Index masthead: an oversized HEALTH & FITNESS headline in condensed type on near-black, beside a duotone photograph of a lifter, above a strip reading 1,324 exercises across 10 target groups](docs/banner.png)
+
 A training archive of 1,324 movements. Pick a target muscle, get the exercises,
 each with a still frame and an animated demonstration loop.
 
