@@ -78,6 +78,25 @@ Set `REACT_APP_YOUTUBE_API_KEY` in the host's environment variables too, and add
 the deployed domain to the key's HTTP referrer restrictions. Without that the
 archive and muscle map work but video search returns 403.
 
+### Web Analytics
+
+Vercel Web Analytics is wired up in `public/index.html` as a plain script tag
+rather than the `@vercel/analytics` package. The package declares an optional
+SvelteKit peer that wants TypeScript 5, which npm tries to resolve against
+react-scripts' TypeScript 4 pin; installing it needs `--legacy-peer-deps`, and
+the lockfile that produces makes `npm ci` fail on the build machine. The script
+is what the package injects anyway, and with no router there are no route
+changes for it to track.
+
+Turn it on under Analytics in the Vercel dashboard. Nothing is counted until you
+do.
+
+Only Vercel serves `/_vercel/insights/script.js`, so a hostname guard skips the
+request on localhost and on the `pages.dev` and `github.io` mirrors, where it
+would 404 on every page view. It fails open: any other host still loads it, so a
+custom domain pointed at Vercel needs no change. Add a host to the pattern in
+`public/index.html` to opt it out.
+
 ## Design
 
 Brutalist sports-press: asphalt ground, bone type, one acid-lime signal colour,

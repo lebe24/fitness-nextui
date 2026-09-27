@@ -27,5 +27,28 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+
+    <!--
+      Vercel Web Analytics.
+
+      Only Vercel deployments serve /_vercel/insights/script.js, so the guard
+      below skips the request on localhost and on the Cloudflare Pages and
+      GitHub Pages mirrors, where it would 404 on every page view. It fails
+      open: any host not on that list still gets the script, so pointing a
+      custom domain at Vercel needs no change here.
+
+      Counting only starts once Web Analytics is enabled for the project in the
+      Vercel dashboard.
+    -->
+    <script>
+      (function () {
+        var skip = /(^|\.)pages\.dev$|(^|\.)github\.io$|^localhost$|^127\.0\.0\.1$|^\[::1\]$/;
+        if (skip.test(location.hostname)) return;
+        var s = document.createElement('script');
+        s.defer = true;
+        s.src = '/_vercel/insights/script.js';
+        document.head.appendChild(s);
+      })();
+    </script>
   </body>
 </html>
