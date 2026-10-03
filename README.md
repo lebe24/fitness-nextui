@@ -5,8 +5,6 @@
 A training archive of 1,324 movements. Pick a target muscle, get the exercises,
 each with a still frame and an animated demonstration loop.
 
-**Live:** [nextui-byy.pages.dev](https://nextui-byy.pages.dev/)
-
 ## Getting started
 
 ```bash
