@@ -76,6 +76,10 @@ Set `REACT_APP_YOUTUBE_API_KEY` in the host's environment variables too, and add
 the deployed domain to the key's HTTP referrer restrictions. Without that the
 archive and muscle map work but video search returns 403.
 
+`ANTHROPIC_API_KEY` powers the coach and must be set in the Vercel dashboard as
+a plain environment variable. Do not give it a `REACT_APP_` prefix; that would
+inline it into the browser bundle for anyone to read.
+
 ### Web Analytics
 
 Vercel Web Analytics is wired up in `public/index.html` as a plain script tag
@@ -95,6 +99,42 @@ would 404 on every page view. It fails open: any other host still loads it, so a
 custom domain pointed at Vercel needs no change. Add a host to the pattern in
 `public/index.html` to opt it out.
 
+## Workout builder
+
+Section 05 generates a session from the catalogue. Pick a split, a goal, the
+kit you have and a length; the generator fills an ordered list of muscle slots,
+compounds in the first half so the heavy work lands while you are fresh, then
+isolation. Sets, reps and rest come from the goal. Shuffle re-rolls the seed;
+the same seed always rebuilds the same session.
+
+Selection is ranked rather than random. The catalogue holds dozens of variants
+per muscle and most are obscure, so an even draw produces sessions full of
+archer push-ups. Candidates score on mainstream equipment, a recognised
+movement pattern in the name, and a canonical kit prefix, and lose points for
+very long names, parenthetical variants and two movement words in one name
+("dumbbell biceps curl squat"). Stretches and mobility drills are excluded
+entirely: programming a hamstring stretch for five sets of three is nonsense.
+
+**Download card** renders the session to a 1080x1350 PNG on a canvas, sized for
+an Instagram post. No library: the exercise art is served with
+`Access-Control-Allow-Origin`, so loading it with `crossOrigin="anonymous"`
+keeps the canvas exportable.
+
+## Coach
+
+`api/chat.js` is a Vercel function that proxies the workout and your question
+to Claude. It exists so `ANTHROPIC_API_KEY` stays on the server; a key in a
+`REACT_APP_*` variable is published to every visitor.
+
+The endpoint is public, so it is bounded on purpose: short replies, low effort,
+a capped transcript, and per-IP rate limiting of 12 messages per 10 minutes.
+That limit lives in a warm instance's memory, so the real ceiling is the spend
+limit on your Anthropic account. Set one.
+
+It only runs on the deployed site. Under `npm start` there is no function, and
+the panel says so rather than looking broken. To exercise it locally, run
+`vercel dev` instead.
+
 ## Design
 
 Brutalist sports-press: asphalt ground, bone type, one acid-lime signal colour,
@@ -109,11 +149,12 @@ once you hover or press play, which keeps a page of twelve cards light.
 
 ```
 public/exercises.json     the movement catalogue
+api/chat.js               Vercel function behind the coach
 src/
   App.js                  state, data loading, layout composition
   styles/                 design tokens + base styles
   components/             one .jsx + .css pair per component
-  lib/                    muscle resolution + body geometry
+  lib/                    muscle resolution, body geometry, workout generation
   services/               catalogue loader, YouTube search, quotes
 ```
 

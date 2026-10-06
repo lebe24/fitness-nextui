@@ -5,6 +5,7 @@ const LINKS = [
   { label: 'Index', href: '#target' },
   { label: 'Muscles', href: '#muscles' },
   { label: 'Archive', href: '#results' },
+  { label: 'Build', href: '#build' },
   { label: 'Colophon', href: '#colophon' },
 ];
 

@@ -85,6 +85,11 @@ export async function fetchCatalogueCount(signal) {
   return all.length;
 }
 
+/** The whole catalogue, for the workout builder. */
+export async function fetchAllExercises(signal) {
+  return loadCatalogue(signal);
+}
+
 /** Every exercise filed under a given body part. */
 export async function fetchExercisesByBodyPart(bodyPart, signal) {
   const all = await loadCatalogue(signal);

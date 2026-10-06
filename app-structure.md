@@ -6,8 +6,10 @@ branch.
 
 ## Shape of the thing
 
-A single-page Create React App with no router, no state library, and no backend.
-One screen, scrolled top to bottom, divided into four numbered chapters:
+A single-page Create React App with no router and no state library. One screen,
+scrolled top to bottom, divided into five numbered chapters. The only server
+code is `api/chat.js`, a Vercel function that keeps the Anthropic key off the
+client; everything else is static.
 
 | # | Section | Anchor | Component |
 |---|---|---|---|
@@ -15,6 +17,7 @@ One screen, scrolled top to bottom, divided into four numbered chapters:
 | 02 | Select target | `#target` | `TargetRail` |
 | 03 | Muscle map | `#muscles` | `MuscleMap` |
 | 04 | Archive / video | `#results` | `ExerciseGrid` or `VideoGrid` |
+| 05 | Build a session | `#build` | `WorkoutBuilder` + `CoachChat` |
 
 Navigation is anchor scrolling, not routing. `scrollToId` in `App.js` is the only
 mechanism, and `[id] { scroll-margin-top: 96px }` in `base.css` keeps the sticky
@@ -296,6 +299,43 @@ compressed by any sane host.
 Environment variables are all optional except the YouTube key:
 `REACT_APP_YOUTUBE_API_KEY` for video search, `REACT_APP_IMG_BASE` and
 `REACT_APP_GIF_BASE` to self-host the media.
+
+## The workout builder
+
+`lib/workout.js` generates a session. Each split (`push`, `pull`, `legs`,
+`upper`, `lower`, `full`, `core`, `arms`) declares an ordered list of muscle
+slots; slots are filled in order, with roughly the first half preferring
+compound movements.
+
+Three decisions in there are load-bearing and look arbitrary otherwise:
+
+- **Compound is detected by movement pattern, not muscle count.** Counting
+  muscles marks almost everything compound, because most entries list two or
+  more secondaries, which produced sessions of six presses and no accessory
+  work.
+- **Candidates are ranked, then picked randomly from the top eight.** An even
+  draw over the whole pool surfaces the long tail. Scoring rewards mainstream
+  equipment and recognised movement names, and penalises one-word catalogue
+  stubs like "quads", long niche variants, parenthetical qualifiers, and names
+  containing two movement words, which are novelty combos that would otherwise
+  score like staples.
+- **A compound slot falls back to isolation when the best compound scores far
+  worse than the best exercise available.** Biceps, calves and abs have no real
+  compound, and forcing one produced hybrids like "dumbbell bicep curl lunge
+  with bowling motion".
+
+The PRNG hashes its seed before use. Seeds arrive as 1, 2, 3 from the shuffle
+button, and consecutive small seeds in a raw xorshift produce correlated first
+outputs, so shuffling changed only the tail of the workout.
+
+`lib/workoutCard.js` draws the session to a 1080x1350 canvas and returns a PNG
+data URL. It waits on `document.fonts` first, or the canvas silently falls back
+from the display face, and it loads the exercise art with
+`crossOrigin="anonymous"` so the canvas stays exportable.
+
+`WorkoutBuilder` is the one component that owns data rather than taking it as
+props. It calls `fetchAllExercises`, which shares the same memoised catalogue
+promise as the rest of the app, so this costs no extra request.
 
 ## Where to extend
 

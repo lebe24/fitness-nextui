@@ -9,6 +9,7 @@ import VideoGrid from './components/VideoGrid';
 import Pager from './components/Pager';
 import StateBlock from './components/StateBlock';
 import MuscleMap from './components/MuscleMap';
+import WorkoutBuilder from './components/WorkoutBuilder';
 import Footer from './components/Footer';
 import {
   fetchBodyParts,
@@ -260,6 +261,20 @@ export default function App() {
               )}
             </>
           )}
+        </section>
+
+        <section className="builder shell" id="build">
+          <div className="chapter">
+            <span className="chapter__num">05 /</span>
+            <h2 className="chapter__title">Build a session</h2>
+            <p className="chapter__note">
+              Pick a split
+              <br />
+              Download or ask the coach
+            </p>
+          </div>
+
+          <WorkoutBuilder />
         </section>
       </main>
 

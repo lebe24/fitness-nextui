@@ -1,0 +1,249 @@
+.wb {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1px;
+}
+
+/* ---------- controls ---------- */
+
+.wb__controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin: 0;
+  padding: 0;
+}
+
+.wb__group {
+  margin: 0;
+  border: 0;
+  padding: clamp(0.9rem, 2vw, 1.25rem);
+  background: var(--ink-raise);
+  min-width: 0;
+}
+
+.wb__legend {
+  float: left;
+  width: 100%;
+  padding: 0 0 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bone-mute);
+}
+
+.wb__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  clear: both;
+}
+
+.wb__chip {
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: var(--bone-soft);
+  padding: 0.4rem 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease),
+    border-color var(--t-fast) var(--ease);
+}
+
+.wb__chip:hover { color: var(--bone); border-color: var(--rule-strong); }
+
+.wb__chip.is-on {
+  background: var(--volt);
+  border-color: var(--volt);
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* ---------- the session sheet ---------- */
+
+.wb__sheet {
+  border: 1px solid var(--rule);
+  background: var(--ink-raise);
+}
+
+.wb__sheet--ghost { height: 420px; border: 0; }
+
+.wb__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: clamp(1rem, 2.5vw, 1.6rem);
+  border-bottom: 1px solid var(--rule);
+}
+
+.wb__title {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: clamp(1.9rem, 4.5vw, 3rem);
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+
+.wb__sub {
+  margin: 0.5rem 0 0;
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-mute);
+}
+
+.wb__shuffle {
+  border: 1px solid var(--rule-strong);
+  background: transparent;
+  color: var(--bone);
+  padding: 0.55rem 1rem;
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+
+.wb__shuffle:hover { background: var(--volt); border-color: var(--volt); color: var(--ink); }
+
+/* ---------- exercise rows ---------- */
+
+.wb__list { list-style: none; margin: 0; padding: 0; }
+
+.wb__row {
+  display: grid;
+  grid-template-columns: 2.2rem 64px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(0.6rem, 1.6vw, 1.1rem);
+  padding: 0.8rem clamp(1rem, 2.5vw, 1.6rem);
+  border-bottom: 1px solid var(--rule);
+}
+
+.wb__row:last-child { border-bottom: 0; }
+
+.wb__num {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--volt);
+}
+
+/* The plate carries the bone background and the image multiplies over it.
+   Putting both on one element does nothing: mix-blend-mode blends with the
+   backdrop behind the element, not with its own background. */
+.wb__thumb {
+  width: 64px;
+  height: 64px;
+  flex: none;
+  display: block;
+  background: var(--bone);
+  overflow: hidden;
+}
+
+.wb__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: multiply;
+}
+
+.wb__thumb--empty { background: var(--ink-panel); }
+
+.wb__name {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.05rem, 2vw, 1.4rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.wb__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-mute);
+}
+
+.wb__tags .is-compound { color: var(--volt); }
+
+.wb__scheme {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.2rem;
+  text-align: right;
+}
+
+.wb__scheme strong {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: clamp(1.2rem, 2.4vw, 1.7rem);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.wb__scheme span {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-mute);
+  white-space: nowrap;
+}
+
+/* ---------- actions ---------- */
+
+.wb__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  padding: clamp(1rem, 2.5vw, 1.6rem);
+  border-top: 1px solid var(--rule);
+}
+
+.wb__note {
+  margin: 0 0 0 auto;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-mute);
+}
+
+@media (max-width: 720px) {
+  .wb__row { grid-template-columns: 1.8rem 52px minmax(0, 1fr); }
+  .wb__thumb { width: 52px; height: 52px; }
+  .wb__scheme {
+    grid-column: 2 / -1;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0.6rem;
+    justify-content: flex-start;
+    text-align: left;
+  }
+  .wb__note { margin-left: 0; width: 100%; }
+}
