@@ -144,7 +144,13 @@ or parameterised routes ever appear, replace it rather than extending it.
 
 `vercel.json` rewrites any path that is not a file or an API function to
 `index.html`. Without that rewrite a direct hit on `/build`, or a refresh while
-on it, returns 404.
+on it, returns 404. Keep that file to the properties Vercel's schema allows:
+it rejects unknown keys, and an invalid `vercel.json` fails the deployment
+before the build starts.
+
+Vercel is the only deployment. There is no GitHub Actions pipeline: Pages
+cannot run `api/chat.js` and has no rewrite support, so `/build` and the coach
+would both break there.
 
 ## Design
 
