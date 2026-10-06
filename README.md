@@ -101,7 +101,7 @@ custom domain pointed at Vercel needs no change. Add a host to the pattern in
 
 ## Workout builder
 
-Section 05 generates a session from the catalogue. Pick a split, a goal, the
+`/build` is its own page and generates a session from the catalogue. Pick a split, a goal, the
 kit you have and a length; the generator fills an ordered list of muscle slots,
 compounds in the first half so the heavy work lands while you are fresh, then
 isolation. Sets, reps and rest come from the goal. Shuffle re-rolls the seed;
@@ -135,6 +135,17 @@ It only runs on the deployed site. Under `npm start` there is no function, and
 the panel says so rather than looking broken. To exercise it locally, run
 `vercel dev` instead.
 
+## Routing
+
+Two pages, `/` and `/build`, served by a hand-written router in
+`src/lib/router.js` rather than react-router: that library would have added
+roughly a quarter of this bundle to serve two paths with no params. If nested
+or parameterised routes ever appear, replace it rather than extending it.
+
+`vercel.json` rewrites any path that is not a file or an API function to
+`index.html`. Without that rewrite a direct hit on `/build`, or a refresh while
+on it, returns 404.
+
 ## Design
 
 Brutalist sports-press: asphalt ground, bone type, one acid-lime signal colour,
@@ -150,15 +161,17 @@ once you hover or press play, which keeps a page of twelve cards light.
 ```
 public/exercises.json     the movement catalogue
 api/chat.js               Vercel function behind the coach
+vercel.json               SPA rewrite so /build survives a refresh
 src/
-  App.js                  state, data loading, layout composition
+  App.js                  shell: masthead, route switch, footer
+  pages/                  Home and Build
   styles/                 design tokens + base styles
   components/             one .jsx + .css pair per component
   lib/                    muscle resolution, body geometry, workout generation
   services/               catalogue loader, YouTube search, quotes
 ```
 
-`App.js` owns all state. Components are presentational and take props.
+`pages/Home.jsx` owns the archive state. `WorkoutBuilder` owns its own.
 
 ## Stack
 

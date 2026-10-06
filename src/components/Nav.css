@@ -97,6 +97,10 @@
 .nav__link:hover,
 .nav__link:focus-visible { color: var(--bone); }
 
+/* The route you are on, not a hover state. */
+.nav__link.is-here { color: var(--volt); }
+.nav__link.is-here::after { transform: scaleX(1); transform-origin: left; }
+
 .nav__link:hover::after,
 .nav__link:focus-visible::after {
   transform: scaleX(1);

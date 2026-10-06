@@ -6,10 +6,10 @@ branch.
 
 ## Shape of the thing
 
-A single-page Create React App with no router and no state library. One screen,
-scrolled top to bottom, divided into five numbered chapters. The only server
-code is `api/chat.js`, a Vercel function that keeps the Anthropic key off the
-client; everything else is static.
+A Create React App with two pages and no state library. `/` is one screen
+scrolled top to bottom through four numbered chapters; `/build` is the workout
+builder. The only server code is `api/chat.js`, a Vercel function that keeps
+the Anthropic key off the client; everything else is static.
 
 | # | Section | Anchor | Component |
 |---|---|---|---|
@@ -17,11 +17,29 @@ client; everything else is static.
 | 02 | Select target | `#target` | `TargetRail` |
 | 03 | Muscle map | `#muscles` | `MuscleMap` |
 | 04 | Archive / video | `#results` | `ExerciseGrid` or `VideoGrid` |
-| 05 | Build a session | `#build` | `WorkoutBuilder` + `CoachChat` |
 
-Navigation is anchor scrolling, not routing. `scrollToId` in `App.js` is the only
-mechanism, and `[id] { scroll-margin-top: 96px }` in `base.css` keeps the sticky
-masthead from covering the target.
+`/build` is a separate page holding `WorkoutBuilder` and `CoachChat`.
+
+Within the home page, navigation is anchor scrolling: `scrollToId` in
+`pages/Home.jsx`, with `[id] { scroll-margin-top: 96px }` in `base.css` keeping
+the sticky masthead off the target.
+
+Between pages, `src/lib/router.js` drives the History API directly. It is about
+sixty lines because react-router would have cost roughly a quarter of the
+bundle for two paths with no params. Three details are deliberate:
+
+- **Links are real anchors.** `RouteLink` only intercepts a plain left click,
+  so modifier-clicks and middle-clicks still open a new tab.
+- **Anchor scrolling after a route change polls on a timer, not
+  `requestAnimationFrame`.** rAF is paused while a tab is in the background, so
+  a link opened in a background tab would never apply its scroll. It retries
+  until the element exists, because React may not have committed the incoming
+  page when the first attempt runs.
+- **A same-page hash uses `replaceState`.** Pushing would make the back button
+  unwind one anchor at a time.
+
+`vercel.json` rewrites unknown paths to `index.html`; without it `/build` 404s
+on refresh.
 
 ## Data sources
 

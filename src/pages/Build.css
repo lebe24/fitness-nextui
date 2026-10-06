@@ -1,0 +1,27 @@
+.page { padding-top: clamp(1.5rem, 4vw, 3rem); }
+
+.build__lede {
+  max-width: 62ch;
+  margin: 0 0 clamp(1.5rem, 4vw, 2.5rem);
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  line-height: 1.65;
+  color: var(--bone-soft);
+}
+
+.build__back {
+  margin: clamp(2rem, 5vw, 3rem) 0 0;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--rule);
+}
+
+.build__back a {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-soft);
+  transition: color var(--t-fast) var(--ease);
+}
+
+.build__back a:hover { color: var(--volt); }
