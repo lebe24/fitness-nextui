@@ -2,7 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
     {
-      "comment": "Client-side routing: serve the app for any path that is not a file or an API function, so a direct hit on /build does not 404.",
       "source": "/((?!api/).*)",
       "destination": "/index.html"
     }
