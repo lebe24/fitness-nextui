@@ -6,8 +6,10 @@ branch.
 
 ## Shape of the thing
 
-A single-page Create React App with no router, no state library, and no backend.
-One screen, scrolled top to bottom, divided into four numbered chapters:
+A Create React App with two pages and no state library. `/` is one screen
+scrolled top to bottom through four numbered chapters; `/build` is the workout
+builder. The only server code is `api/chat.js`, a Vercel function that keeps
+the Anthropic key off the client; everything else is static.
 
 | # | Section | Anchor | Component |
 |---|---|---|---|
@@ -16,9 +18,28 @@ One screen, scrolled top to bottom, divided into four numbered chapters:
 | 03 | Muscle map | `#muscles` | `MuscleMap` |
 | 04 | Archive / video | `#results` | `ExerciseGrid` or `VideoGrid` |
 
-Navigation is anchor scrolling, not routing. `scrollToId` in `App.js` is the only
-mechanism, and `[id] { scroll-margin-top: 96px }` in `base.css` keeps the sticky
-masthead from covering the target.
+`/build` is a separate page holding `WorkoutBuilder` and `CoachChat`.
+
+Within the home page, navigation is anchor scrolling: `scrollToId` in
+`pages/Home.jsx`, with `[id] { scroll-margin-top: 96px }` in `base.css` keeping
+the sticky masthead off the target.
+
+Between pages, `src/lib/router.js` drives the History API directly. It is about
+sixty lines because react-router would have cost roughly a quarter of the
+bundle for two paths with no params. Three details are deliberate:
+
+- **Links are real anchors.** `RouteLink` only intercepts a plain left click,
+  so modifier-clicks and middle-clicks still open a new tab.
+- **Anchor scrolling after a route change polls on a timer, not
+  `requestAnimationFrame`.** rAF is paused while a tab is in the background, so
+  a link opened in a background tab would never apply its scroll. It retries
+  until the element exists, because React may not have committed the incoming
+  page when the first attempt runs.
+- **A same-page hash uses `replaceState`.** Pushing would make the back button
+  unwind one anchor at a time.
+
+`vercel.json` rewrites unknown paths to `index.html`; without it `/build` 404s
+on refresh.
 
 ## Data sources
 
@@ -296,6 +317,43 @@ compressed by any sane host.
 Environment variables are all optional except the YouTube key:
 `REACT_APP_YOUTUBE_API_KEY` for video search, `REACT_APP_IMG_BASE` and
 `REACT_APP_GIF_BASE` to self-host the media.
+
+## The workout builder
+
+`lib/workout.js` generates a session. Each split (`push`, `pull`, `legs`,
+`upper`, `lower`, `full`, `core`, `arms`) declares an ordered list of muscle
+slots; slots are filled in order, with roughly the first half preferring
+compound movements.
+
+Three decisions in there are load-bearing and look arbitrary otherwise:
+
+- **Compound is detected by movement pattern, not muscle count.** Counting
+  muscles marks almost everything compound, because most entries list two or
+  more secondaries, which produced sessions of six presses and no accessory
+  work.
+- **Candidates are ranked, then picked randomly from the top eight.** An even
+  draw over the whole pool surfaces the long tail. Scoring rewards mainstream
+  equipment and recognised movement names, and penalises one-word catalogue
+  stubs like "quads", long niche variants, parenthetical qualifiers, and names
+  containing two movement words, which are novelty combos that would otherwise
+  score like staples.
+- **A compound slot falls back to isolation when the best compound scores far
+  worse than the best exercise available.** Biceps, calves and abs have no real
+  compound, and forcing one produced hybrids like "dumbbell bicep curl lunge
+  with bowling motion".
+
+The PRNG hashes its seed before use. Seeds arrive as 1, 2, 3 from the shuffle
+button, and consecutive small seeds in a raw xorshift produce correlated first
+outputs, so shuffling changed only the tail of the workout.
+
+`lib/workoutCard.js` draws the session to a 1080x1350 canvas and returns a PNG
+data URL. It waits on `document.fonts` first, or the canvas silently falls back
+from the display face, and it loads the exercise art with
+`crossOrigin="anonymous"` so the canvas stays exportable.
+
+`WorkoutBuilder` is the one component that owns data rather than taking it as
+props. It calls `fetchAllExercises`, which shares the same memoised catalogue
+promise as the rest of the app, so this costs no extra request.
 
 ## Where to extend
 

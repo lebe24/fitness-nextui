@@ -1,0 +1,138 @@
+.coach {
+  border: 1px solid var(--rule);
+  border-top: 0;
+  background: var(--ink-raise);
+  display: flex;
+  flex-direction: column;
+}
+
+.coach__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.9rem;
+  padding: clamp(1rem, 2.5vw, 1.4rem);
+  border-bottom: 1px solid var(--rule);
+}
+
+.coach__title {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.coach__sub {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bone-mute);
+}
+
+/* ---------- log ---------- */
+
+.coach__log {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: clamp(1rem, 2.5vw, 1.4rem);
+  min-height: 150px;
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.coach__suggestions { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+.coach__suggestion {
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: var(--bone-soft);
+  padding: 0.45rem 0.75rem;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+
+.coach__suggestion:hover { background: var(--volt); border-color: var(--volt); color: var(--ink); }
+
+.coach__msg {
+  margin: 0;
+  max-width: 52ch;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.coach__msg--user {
+  align-self: flex-end;
+  background: var(--volt);
+  color: var(--ink);
+  padding: 0.55rem 0.8rem;
+  font-weight: 700;
+}
+
+.coach__msg--assistant {
+  align-self: flex-start;
+  color: var(--bone);
+  border-left: 2px solid var(--volt);
+  padding-left: 0.8rem;
+}
+
+.coach__msg--pending { color: var(--bone-mute); font-style: italic; }
+
+.coach__error {
+  margin: 0;
+  border-left: 2px solid var(--ember);
+  padding-left: 0.8rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--bone-soft);
+}
+
+/* ---------- composer ---------- */
+
+.coach__form {
+  display: flex;
+  align-items: stretch;
+  border-top: 1px solid var(--rule);
+}
+
+.coach__input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  padding: 1rem clamp(1rem, 2.5vw, 1.4rem);
+  font-size: 0.9rem;
+  color: var(--bone);
+  outline-offset: -4px;
+}
+
+.coach__input::placeholder { color: var(--bone-mute); }
+
+.coach__send {
+  flex: none;
+  border: 0;
+  border-left: 1px solid var(--rule);
+  background: transparent;
+  color: var(--bone);
+  padding-inline: clamp(1rem, 2.5vw, 1.8rem);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+
+.coach__send:hover:not(:disabled) { background: var(--volt); color: var(--ink); }
+.coach__send:disabled { color: var(--bone-mute); cursor: not-allowed; }

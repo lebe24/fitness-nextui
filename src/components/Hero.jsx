@@ -1,3 +1,4 @@
+import RouteLink from './RouteLink';
 import person from '../assets/female.png';
 import './Hero.css';
 
@@ -37,9 +38,9 @@ const Hero = ({ quote, targetCount, exerciseCount, onBrowse }) => (
           <button type="button" className="btn btn--solid" onClick={onBrowse}>
             <span>Browse the index</span>
           </button>
-          <a className="btn" href="#results">
-            <span>See the archive</span>
-          </a>
+          <RouteLink className="btn" to="/build">
+            <span>Build a session</span>
+          </RouteLink>
         </div>
 
         <figure className="quote rise" style={{ animationDelay: '500ms' }}>

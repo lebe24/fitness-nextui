@@ -1,15 +1,21 @@
 import { useEffect, useState } from 'react';
+import RouteLink from './RouteLink';
+import { usePath } from '../lib/router';
 import './Nav.css';
 
+/* Hrefs are absolute rather than bare hashes so every link works from either
+   page: from /build, "#muscles" would do nothing. */
 const LINKS = [
-  { label: 'Index', href: '#target' },
-  { label: 'Muscles', href: '#muscles' },
-  { label: 'Archive', href: '#results' },
-  { label: 'Colophon', href: '#colophon' },
+  { label: 'Index', to: '/#target' },
+  { label: 'Muscles', to: '/#muscles' },
+  { label: 'Archive', to: '/#results' },
+  { label: 'Build', to: '/build' },
+  { label: 'Colophon', to: '/#colophon' },
 ];
 
-const Nav = ({ onStart }) => {
+const Nav = () => {
   const [lifted, setLifted] = useState(false);
+  const path = usePath();
 
   useEffect(() => {
     const onScroll = () => setLifted(window.scrollY > 24);
@@ -21,7 +27,7 @@ const Nav = ({ onStart }) => {
   return (
     <header className={`nav${lifted ? ' nav--lifted' : ''}`}>
       <div className="nav__inner shell">
-        <a className="mark" href="#top">
+        <RouteLink className="mark" to="/#top">
           <span className="mark__glyph" aria-hidden="true">
             II
           </span>
@@ -29,19 +35,24 @@ const Nav = ({ onStart }) => {
             <span className="mark__name">Iron Index</span>
             <span className="mark__sub">Training archive</span>
           </span>
-        </a>
+        </RouteLink>
 
         <nav className="nav__links" aria-label="Sections">
           {LINKS.map((link) => (
-            <a key={link.href} className="nav__link" href={link.href}>
+            <RouteLink
+              key={link.to}
+              className={`nav__link${path === link.to ? ' is-here' : ''}`}
+              to={link.to}
+              aria-current={path === link.to ? 'page' : undefined}
+            >
               {link.label}
-            </a>
+            </RouteLink>
           ))}
         </nav>
 
-        <button type="button" className="btn btn--solid nav__cta" onClick={onStart}>
-          <span>Start lifting</span>
-        </button>
+        <RouteLink className="btn btn--solid nav__cta" to="/build">
+          <span>Build a session</span>
+        </RouteLink>
       </div>
     </header>
   );
